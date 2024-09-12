@@ -1,0 +1,103 @@
+name: |-
+  sultan1sa github
+desc: |-
+  my test
+icon: |-
+  https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1077.png
+category: "sultan1sa"
+
+http:
+
+  mitm:
+    - "api.revenuecat.com"
+    - "api.adapty.io"
+    - "api.qapi.qonversion.io"
+    - "api.apphud.com"
+    - "Boxjs.com"
+    - "*.boxjs.net"
+    - "*.boxjs.com"
+    - "buy.itunes.apple.com"
+    - "app-measurement.com"
+    - "firestore.googleapis.com"
+    - "*.googlevideo.com"
+    - "youtubei.googleapis.com"
+
+  script:
+    - match: ^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$)
+      name: "auto_1"
+      type: response
+      require-body: true
+      timeout: 10
+
+    - match: https:\/\/api\.apphud\.com\/v1\/(subscriptions|customers)
+      name: "apphud_2"
+      type: response
+      require-body: true
+      timeout: 10
+
+    - match: api.qonversion.io/v1/user/init
+      name: "mail10_3"
+      type: response
+      require-body: true
+      timeout: 10
+
+    - match: https://api.adapty.io/api/v1/sdk/in-apps/apple/receipt/validate/
+      name: "chat Uncensored_4"
+      type: response
+      require-body: true
+      timeout: 10
+
+    - match: https?:\/\/boxjs\.(com|net)
+      name: "RewriteBoxJs_5"
+      type: request
+      require-body: true
+      timeout: 120
+
+    - match: ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$
+      name: "iTunes_6"
+      type: response
+      require-body: true
+      max-size: -1
+      timeout: 60
+
+    - match: ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|reel\/reel_watch_sequence|get_watch)
+      name: "youtuberequest_7"
+      type: request
+      require-body: true
+      max-size: -1
+      binary-mode: true
+
+    - match: ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)
+      name: "youtuberesponse_8"
+      type: response
+      require-body: true
+      max-size: -1
+      binary-mode: true
+      argument: |-
+        {"lyricLang":"{{{歌词翻译语言}}}","captionLang":"{{{字幕翻译语言}}}","blockUpload":{{{屏蔽上传按钮}}},"blockImmersive":{{{屏蔽选段按钮}}},"debug":{{{启用调试模式}}}}
+
+script-providers:
+  "auto_1":
+    url: https://raw.githubusercontent.com/sultan1sa/Revenuecat/main/generation/anybox/Rev.js
+    interval: 86400
+  "apphud_2":
+    url: https://raw.githubusercontent.com/sultan1sa/AllinOneRewrite-/main/Apphud.js
+    interval: 86400
+  "mail10_3":
+    url: https://raw.githubusercontent.com/sultan1sa/AllinOneRewrite-/main/10mail.js
+    interval: 86400
+  "chat Uncensored_4":
+    url: https://raw.githubusercontent.com/sultan1sa/AllinOneRewrite-/main/ChatUncensored.js
+    interval: 86400
+  "RewriteBoxJs_5":
+    url: https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js
+    interval: 86400
+  "iTunes_6":
+    url: https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js
+    interval: 86400
+  "youtuberequest_7":
+    url: https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/dist/youtube.request.preview.js
+    interval: 86400
+  "youtuberesponse_8":
+    url: https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/dist/youtube.response.preview.js
+    interval: 86400
