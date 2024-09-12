@@ -1,0 +1,357 @@
+mixed-port. 7890
+ allow-lan: true
+ bind-address. '*'
+ mode: rule
+ log-level: info
+ ipv6: true
+ external-controller: 127.0.0.1:9090
+ proxy-providers.
+  #All nodes
+  All: &All
+    type: http #Anchor creation
+    url: " "https://sub.sub-vip.site/sub?target=clash&ver=4&url=https%3A%2F%2Fraw.githubusercontent.com%2Fmahdibland%2FV2RayAggregator%2Fmaster%2FEternity&insert=false&config=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2Ftindy2013%2Fsubconverter%40master%2Fbase%2Fconfig%2FACL4SSR_Mini_NoAuto.ini&emoji=true&list=false&tfo=false&scv=true&fdn=false&sort=false"
+    # You can replace the above text with the Clash subscription link, just write multiple links together separated by a vertical bar;
+    interval. 3600
+    path: ./all.yaml
+    health-check.
+      enable: true
+      interval: 600
+      url: http://www.gstatic.com/generate_204
+    benchmark-url: http://www.gstatic.com/generate_204
+  #US nodes    
+  US.
+    !merge <<. *All #quote anchor content
+    filter. United #fill in the name of your own airport node
+    benchmark-url: http://www.gstatic.com/generate_204
+    interval. 3600
+    url: https://sub.id9.cc/sub?target=clash&url=https%3A%2F%2Fraw.githubusercontent.com%2FAiruop%2Fcross%2Fdbc5767a3e76fbb932f81f8a976d2b7484b8c738%2Fsub%2Fsub_merge_base64.txt&insert=false&config=https%3A%2F%2Fraw.githubusercontent.com%2FACL4SSR%2FACL4SSR%2Fmaster%2FClash%2Fconfig%2FACL4SSR_Online.ini&include=%F0%9F%87%BA%F0%9F%87%B8%7C%E7%BE%8E%E5%9B%BD%7CUS%7C%E5%8D%8E%E7%9B%9B%E9%A1%BF%7C%E4%BF%84%E5%8B%92%E5%86%88%7C%E5%86%85%E5%8D%8E%E8%BE%BE%7C%E6%8B%89%E6%96%AF%E7%BB%B4%E5%8A%A0%E6%96%AF%7C%E8%92%99%E5%A4%A7%E7%BA%B3%7C%E6%80%80%E4%BF%84%E6%98%8E%E5%B7%9E%7C%E8%8F%B2%E5%B0%BC%E5%85%8B%E6%96%AF%7C%E9%98%BF%E5%B0%94%E4%BC%AF%E5%85%8B%E5%9F%BA%7C%E4%B8%B9%E4%BD%9B%7C%E5%93%A5%E4%BC%A6%E6%AF%94%E4%BA%9A&emoji=true&list=false&tfo=false&scv=false&fdn=false&sort=false
+  #Hong Kong node
+  HK.
+    !merge <<. *All
+    filter. Hong
+  #Singapore node    
+  SG.
+    !merge <<. *All
+    filter. Sing
+  #Japan node
+  JP.
+    !merge <<. *All
+    filter. Japan
+  #Taiwan node
+  TW.
+    !merge <<. *All
+    filter: *All Taiwan
+ dns.
+  enable: true
+  ipv6: false
+  listen: 0.0.0.0:53 0.0.0.0:53
+  default-nameserver: 223.5.5.5
+    - 223.5.5.5
+    - 1.2.4.8
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16 198.18.0.1/16
+  fake-ip fake-ip-range: 198.18.0.1/16
+    - '*.lan'
+    - localhost.ptlogin2.qq.com
+    - '+.srv.nintendo.net'
+    - '+.stun.playstation.net'
+    - '+.msftconnecttest.com'
+    - '+.msftncsi.com'
+    - '+.xboxlive.com'
+    - 'msftconnecttest.com'
+    - 'xbox.*.microsoft.com'
+    - '*.battlenet.com.
+    - '*.battlenet.com'
+    - '*.blzstatic.cn'
+    - '*.battle.net'
+  nameserver.
+    - tls://jeff-private.iqdns.io:853 # Guizhou
+    - tls://c.passcloud.xyz:853 # Guangzhou
+    - tls://x.passcloud.xyz:853 # Shanghai
+    - tls://b.iqiq.io:853 #Beijing
+    - tls://h.iqiq.io:853 #Hainan
+    - tls://j.iqiq.io:853 #Jiangxi
+  # - quic://jeff-private.iqdns.io:784 #Guizhou
+  # - quic://c.passcloud.xyz:784 # Guangzhou
+  # - quic://x.passcloud.xyz:784 # Shanghai
+  # - quic://b.iqiq.io:784 #Beijing
+  # - quic://h.iqiq.io:784 #Hainan
+  # - quic://j.iqiq.io:784 #jiangxi
+
+  fallback.
+    - quic://dns.adguard.com
+    - https://dns.google/dns-query
+    - https://1.1.1.1/dns-query
+  fallback-filter.
+    geoip: true
+    geoip-code. CN
+ proxies.
+ proxy-groups.
+  - name: Hong Kong node
+    type: url-test
+    type: url-test
+      - HK
+    url: " "http://www.gstatic.com/generate_204"
+    interval: 300
+  - name: Singapore Node
+    type: url-test
+    use: SGN
+      - SG
+    url: " "http://www.gstatic.com/generate_204"
+    interval. 300
+  - name: Japan Node
+    type: url-test
+    use: JPN
+      - JP
+    url: " "http://www.gstatic.com/generate_204"
+    interval: 300
+  - name: Taiwan Node
+    type: url-test
+    use: iphone.com.cn
+      - TW
+    type: url-test use: TW "http://www.gstatic.com/generate_204"
+    interval: 300
+  - name: US Node
+    type: fallback
+    use: US node
+      - US
+    url: " "http://www.gstatic.com/generate_204"
+    interval. 300
+  - name: manual switch
+    type: select
+    use: All
+      - All
+    proxies.
+      - Auto-select
+  - name: auto-select
+    type: url-test
+    use.
+      - All
+    url: ". "http://www.gstatic. com/generate_204"
+    interval. 300
+  - name: Global Acceleration
+    type: select
+    proxies: manual switch
+      - Manual switching
+      - Auto select
+      - Hong Kong nodes
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+  - name: cryptocurrency
+    type: select
+    proxies.
+      - Manual switching
+      - Auto-select
+      - Hong Kong nodes
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+  - name: International Jitterbug
+    type: select
+    proxies.
+      - Manual switching
+      - Auto select
+      - Hong Kong node
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+  - name: International Media
+    type: select
+    proxies.
+      - Manual switching
+      - Automatic selection
+      - Hong Kong node
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+  - name: RTHK Drama
+    type: select
+    proxies.
+      - Manual switching
+      - auto select
+      - Hong Kong node
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+  - name: Telegraph Agent
+    type: select
+    proxies.
+      - Manual switching
+      - Automatic selection
+      - Hong Kong node
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+  - name: Naive
+    type: select
+    proxies.
+      - Manual switching
+      - Auto-select
+      - Hong Kong node
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+  - name: Twitter
+    type: select
+    proxies.
+      - Manual switching
+      - Auto-select
+      - Hong Kong nodes
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+  - name: paypal
+    type: select
+    proxies.
+      - Manual switching
+      - Auto-select
+      - Hong Kong nodes
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+  - name: fish out of water
+    type: select
+    proxies.
+      - Manual switching
+      - auto-select
+      - Hong Kong nodes
+      - Singapore nodes
+      - USA nodes
+      - Japan Node
+      - Taiwan node
+ rule-providers.
+  Unbreak.
+    type: http
+    behavior: classical
+    path: ./RuleSet/Unbreak.yaml
+    url: https://fastly.jsdelivr.net/gh/DivineEngine/Profiles@master/Clash/RuleSet/Unbreak.yaml
+    interval: 86400
+  Hijacking.
+    url:  interval: 86400 Hijacking: type: http
+    behavior: classical
+    path: ./RuleSet/Guard/Hijacking.yaml
+    url: https://fastly.jsdelivr.net/gh/DivineEngine/Profiles@master/Clash/RuleSet/Guard/Hijacking.yaml
+    interval: 86400
+  Privacy.
+    type: http
+    behavior: classical
+    path: ./RuleSet/Guard/Privacy.yaml
+    url: https://fastly.jsdelivr.net/gh/DivineEngine/Profiles@master/Clash/RuleSet/Guard/Privacy.yaml
+    interval: 86400
+  HUOBI.
+    url:  interval: 86400 HUOBI: type: http
+    behavior: classical
+    path: ./Cryptocurrency/Cryptocurrency.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Cryptocurrency/Cryptocurrency.yaml
+    interval: 86400
+  TIKTOK.
+    url:  interval: 86400 TIKTOK: type: http
+    behavior: classical
+    path: ./TikTok/TikTok.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok.yaml
+    interval: 86400
+  Telegram.
+    type: http
+    behavior: classical
+    path: ./RuleSet/Extra/Telegram/Telegram.yaml
+    url: https://fastly.jsdelivr.net/gh/DivineEngine/Profiles@master//Clash/RuleSet/Extra/Telegram/Telegram.yaml
+    interval: 86400
+  Netflix.
+    behavior: classical path: ./RuleSet/Extra/Telegram/Telegram yaml
+    behavior: classical
+    path: ./Netflix/Netflix.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Netflix/Netflix.yaml
+    interval: 86400
+  Twitter.
+    behavior: classical path: ./Netflix/Netflix yaml url:  interval: 86400
+    behavior: classical
+    path: ./Twitter/Twitter.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitter/Twitter.yaml
+    interval: 86400
+  PayPal.
+    type: http
+    behavior: classical
+    path: ./PayPal/PayPal.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PayPal/PayPal.yaml
+    interval: 86400
+  GV.
+    type: http
+    behavior: classical
+    path: ./GoogleVoice/GoogleVoice.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GoogleVoice/GoogleVoice.yaml
+    interval: 86400
+  Streaming.
+    type: http
+    behavior: classical
+    path: ./RuleSet/StreamingMedia/Streaming.yaml
+    url: https://fastly.jsdelivr.net/gh/DivineEngine/Profiles@master/Clash/RuleSet/StreamingMedia/Streaming.yaml
+    interval: 86400
+  StreamingSE.
+    behavior: classical path: ./RuleSet/StreamingMedia/Streaming yaml
+    behavior: classical
+    path: ./RuleSet/StreamingMedia/StreamingSE.yaml
+    url: https://fastly.jsdelivr.net/gh/DivineEngine/Profiles@master/Clash/RuleSet/StreamingMedia/StreamingSE.yaml
+    interval: 86400
+  Microsoft.
+    type: http
+    behavior: classical
+    path: ./Microsoft/Microsoft.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml
+    interval: 86400
+  Global.
+    type: http
+    behavior: classical
+    path: ./RuleSet/Global.yaml
+    url: https://fastly.jsdelivr.net/gh/DivineEngine/Profiles@master/Clash/RuleSet/Global.yaml
+    interval: 86400
+  China.
+    type: http
+    behavior: classical
+    path: ./RuleSet/China.yaml
+    url: https://fastly.jsdelivr.net/gh/DivineEngine/Profiles@master/Clash/RuleSet/China.yaml
+    interval: 86400
+  ChinaIP.
+    behavior: ipcidr
+    behavior: ipcidr
+    path: ./RuleSet/Extra/ChinaIP.yaml
+    url: https://fastly.jsdelivr.net/gh/DivineEngine/Profiles@master/Clash/RuleSet/Extra/ChinaIP. yaml
+    interval: 86400
+ rules.
+  - RULE-SET,Unbreak,DIRECT
+  - RULE-SET,Hijacking,REJECT
+  - RULE-SET,Privacy,REJECT
+  - RULE-SET,HUOBI,Cryptocurrency
+  - RULE-SET,Telegram,Telegraph Agent
+  - RULE-SET,Twitter,Tweets
+  - RULE-SET,TIKTOK,International Jitterbugs
+  - RULE-SET,Netflix,Neflix
+  - RULE-SET,PayPal,paypal
+  - RULE-SET,GV,paypal
+  - RULE-SET,Streaming,International Media
+  - RULE-SET,StreamingSE,RTHK Drama
+  - RULE-SET,Microsoft,global acceleration
+  - RULE-SET,Global,Global Acceleration
+  - RULE-SET,China,DIRECT
+  - RULE-SET,ChinaIP,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+  - IP-CIDR,100.64.0.0/10,DIRECT
+  - IP-CIDR,224.0.0.0/4,DIRECT
+  - IP-CIDR,fe80::/10,DIRECT
+  - IP-CIDR,119.28.28.28/32,DIRECT
+  - IP-CIDR,182.254.116.0/24,DIRECT
+  - IP-CIDR,125.91.16.220/32,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,DIRECT
