@@ -1,0 +1,92 @@
+name: |-
+  All-In-One
+desc: |-
+  All-In-One
+icon: |-
+  https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1066.png
+
+http:
+
+  mitm:
+    - "ad.mail.ru"
+    - "alt-ad.mail.ru"
+    - "api.apphud.com"
+    - "apii.revenuecat.com"
+    - "buy.itunes.apple.com"
+    - "api.music.yandex.net"
+    - "api.plus.yandex.ru"
+
+  url-rewrite:
+# Mail.ru Adblocker
+    - >-
+      ad.mail.ru - reject
+    - >-
+      alt-ad.mail.ru - reject
+
+  script:
+# AppHud Universal Script
+    - match: https://api.apphud.com/v1/customers(?!\/(push_token|attribution))
+      name: "AppHud_17"
+      type: response
+      require-body: true
+      max-size: -1
+      timeout: 60
+
+    - match: https://api.apphud.com/v1/customers(?!\/(push_token|attribution))
+      name: "AppHudPaywalls_18"
+      type: response
+      require-body: true
+      max-size: -1
+      timeout: 60
+
+# Revenuecat Universal Script
+    - match: https:\/\/api\.revenuecat\.com\/v1\/(receipts|subscribers\/(?!.*\/(offerings|attributes|adservices_attribution)$).*)
+      name: "Revenuecat_20"
+      type: response
+      require-body: true
+      max-size: -1
+      timeout: 60
+
+# Buy iTunes Universal Script
+    - match: https://buy.itunes.apple.com/verifyReceipt
+      name: "iTunes_22"
+      type: response
+      require-body: true
+      max-size: -1
+      timeout: 60
+
+# Yandex Plus for Navigator
+    - match: (api.plus.yandex.ru/graphql|api.music.yandex.net/account/status)
+      name: "YandexNavi_24"
+      type: response
+      require-body: true
+      max-size: -1
+      timeout: 60
+
+# Yandex Plus for Music
+    - match: https://api.music.yandex.net/account/status.*
+      name: "YandexMusic_26"
+      type: response
+      require-body: true
+      max-size: -1
+      timeout: 60
+
+script-providers:
+  "AppHud_17":
+    url: https://raw.githubusercontent.com/Yarmukhamedov/mitm/main/scripts/AppHud.js
+    interval: 86400
+  "AppHudPaywalls_18":
+    url: https://raw.githubusercontent.com/Yarmukhamedov/mitm/main/scripts/AppHudPaywalls.js
+    interval: 86400
+  "Revenuecat_20":
+    url: https://raw.githubusercontent.com/Yarmukhamedov/mitm/main/scripts/Revenuecat.js
+    interval: 86400
+  "iTunes_22":
+    url: https://raw.githubusercontent.com/Yarmukhamedov/mitm/main/scripts/iTunes.js
+    interval: 86400
+  "YandexNavi_24":
+    url: https://raw.githubusercontent.com/Yarmukhamedov/mitm/main/scripts/YandexNavi.js
+    interval: 86400
+  "YandexMusic_26":
+    url: https://raw.githubusercontent.com/Yarmukhamedov/mitm/main/scripts/YandexMusic.js
+    interval: 86400
